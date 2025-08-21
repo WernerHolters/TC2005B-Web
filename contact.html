@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Werners Website</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="menu">
+        <ul>
+            <li><a href="home.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <div class="login-box">
+            <div class="login-header">
+                <h2>Contact Us</h2>
+                <p>Get in touch with us</p>
+            </div>
+            
+            <form class="login-form" id="contactForm">
+                <div class="input-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
+                </div>
+                
+                <div class="input-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Enter your message" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 3px; font-size: 14px; font-family: Arial, sans-serif; min-height: 100px; resize: vertical;"></textarea>
+                </div>
+                
+                <button type="submit" class="login-btn">Send Message</button>
+                
+                <div class="signup-link">
+                    <p><a href="home.html">Back to Home</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p>&copy; 2025 Werners Website. All rights reserved.</p>
+    </footer>
+</body>
+</html>
