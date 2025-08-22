@@ -134,6 +134,8 @@ body {
     padding: 20px;
     color: #666;
     font-size: 14px;
+    background-color: #f8f9fa;
+    border-top: 1px solid #eee;
 }
 
 .welcome-image {
