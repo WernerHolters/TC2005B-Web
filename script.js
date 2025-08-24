@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const loginButton = document.getElementById('loginButton');
     
-    const valid_email = 'werner@gmail.com';
+    const valid_email = 'a@a.com';
     const valid_password = '123456';
 
     if (loginButton) {
