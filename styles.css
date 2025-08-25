@@ -148,3 +148,19 @@ body {
     height: auto;
     border-radius: 5px;
 }
+
+.about-paragraph {
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.message-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    font-family: Arial, sans-serif;
+    min-height: 100px;
+    resize: vertical;
+}
