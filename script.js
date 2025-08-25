@@ -32,4 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.error("Error: Login button not found in the document.");
     }
+
+    if (homeButton) {
+        homeButton.addEventListener('click', () => {
+            console.log("Redirecting to home page...");
+            window.location.href = "index.html";
+        });
+    } else {
+        console.error("Error: Home button not found in the document.");
+    }
 });
