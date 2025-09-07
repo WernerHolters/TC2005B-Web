@@ -1,19 +1,38 @@
 * {
-    background: #5F6368;
+    background: #1f1f1f;
     color: white;
     font-family: Arial, sans-serif;
 }
 
-#agent-container {
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    max-width: 600px;
-    margin: 0 auto;
+h1 {
+    text-align: center;
+    color: #fd4556;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
+#agents-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+}
+
+.agent-card {
+    text-align: center;
+    padding: 10px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    background: #4a4a4a;
+}
+
+.agent-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.agent-card p {
+    margin: 10px 0 0 0;
+    font-weight: bold;
 }
 
