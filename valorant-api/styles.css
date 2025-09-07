@@ -9,6 +9,18 @@ h1 {
     color: #fd4556;
 }
 
+#search-input {
+    display: block;
+    width: 300px;
+    margin: 20px auto;
+    padding: 10px;
+    border: 2px solid #fd4556;
+    border-radius: 5px;
+    background: #4a4a4a;
+    color: white;
+    font-size: 16px;
+}
+
 #agents-container {
     display: flex;
     flex-wrap: wrap;
@@ -20,7 +32,7 @@ h1 {
 .agent-card {
     text-align: center;
     padding: 10px;
-    border: 2px solid #fff;
+    border: 2px solid #fd4556;
     border-radius: 10px;
     background: #4a4a4a;
 }
