@@ -1,18 +1,6 @@
 const url = "https://valorant-api.com/v1/agents/";
 let allAgents = [];
 
-function agentsData() {
-  fetch(url)
-  .then(response => response.json())
-  .then(data => {
-    const agents = data.data;
-    const agentIds = agents.map(agent => agent.uuid);
-    const agentNames = agents.map(agent => agent.displayName);
-    console.log(agents);
-  })
-  .catch(error => console.error('Error fetching agents:', error));
-}
-
 function fetchAgents() {
   fetch(url)
     .then(response => response.json())
@@ -59,6 +47,5 @@ document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.getElementById('search-input');
   searchInput.addEventListener('input', searchAgents);
   
-  agentsData();
   fetchAgents();
 });
