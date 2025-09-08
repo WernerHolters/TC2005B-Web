@@ -1,21 +1,30 @@
 const url = "https://valorant-api.com/v1/agents/";
 let allAgents = [];
+let currentAgents = [];
+let currentPage = 1;
+const agentsPerPage = 6;
 
 function fetchAgents() {
   fetch(url)
     .then(response => response.json())
     .then(data => { 
       allAgents = data.data;
-      displayAgents(allAgents);
+      currentAgents = allAgents;
+      currentPage = 1;
+      displayAgents();
     })
     .catch(error => console.error('Error fetching agents:', error));
 }
 
-function displayAgents(agents) {
+function displayAgents() {
   const agentsList = document.getElementById('agents-container');
   agentsList.innerHTML = '';
 
-  agents.forEach(agent => {
+  const startIndex = (currentPage - 1) * agentsPerPage;
+  const endIndex = startIndex + agentsPerPage;
+  const agentsToShow = currentAgents.slice(startIndex, endIndex);
+
+  agentsToShow.forEach(agent => {
     const agentCard = document.createElement('div');
     agentCard.className = 'agent-card';
     
@@ -30,17 +39,20 @@ function displayAgents(agents) {
     agentCard.appendChild(name);
     agentsList.appendChild(agentCard);
   });
+
+  updatePagination();
 }
 
 function searchAgents() {
   const searchInput = document.getElementById('search-input');
   const searchTerm = searchInput.value.toLowerCase();
   
-  const filteredAgents = allAgents.filter(agent => 
+  currentAgents = allAgents.filter(agent => 
     agent.displayName.toLowerCase().includes(searchTerm)
   );
   
-  displayAgents(filteredAgents);
+  currentPage = 1;
+  displayAgents();
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -49,3 +61,30 @@ document.addEventListener('DOMContentLoaded', function() {
   
   fetchAgents();
 });
+
+function updatePagination() {
+  const totalPages = Math.ceil(currentAgents.length / agentsPerPage);
+  const pageInfo = document.getElementById('page-info');
+  const prevBtn = document.getElementById('prev-btn');
+  const nextBtn = document.getElementById('next-btn');
+  
+  pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+  
+  prevBtn.disabled = currentPage === 1;
+  nextBtn.disabled = currentPage === totalPages || totalPages === 0;
+}
+
+function previousPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    displayAgents();
+  }
+}
+
+function nextPage() {
+  const totalPages = Math.ceil(currentAgents.length / agentsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    displayAgents();
+  }
+}
