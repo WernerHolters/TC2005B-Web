@@ -1,0 +1,1 @@
+console.log('Garden Grid script loaded');
