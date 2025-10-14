@@ -13,6 +13,27 @@ body {
 
 h1 {
     color: #27ae60;
+    margin-bottom: 20px;
+}
+
+/* Botones */
+.botones {
+    margin-bottom: 20px;
+}
+
+button {
+    background-color: #27ae1f;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 0 10px;
+}
+
+button:hover {
+    background-color: #2ecc7f;
 }
 
 /* Jardin */
@@ -40,4 +61,13 @@ h1 {
 
 .celda:hover {
     background-color: #3e5a6b;
+}
+
+/* Estados de plantas */
+.celda.plantada {
+    background-color: #2ecc7f;
+}
+
+.celda.madura {
+    background-color: #f39c12;
 }
