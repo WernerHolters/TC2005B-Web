@@ -52,7 +52,7 @@ h1 {
 
 button {
     background-color: #06a247;
-    color: white;
+    color: black;
     border: none;
     padding: 12px 20px;
     border-radius: 8px;
@@ -387,19 +387,20 @@ button:hover {
 /* Notificaciones accesibles */
 .notifications {
     position: fixed;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
-    background-color: #27ae60;
-    color: white;
+    transform: translateX(100%);
+    background: #27ae60;
+    color: black;
     padding: 12px 20px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transform: translateX(100%);
     opacity: 0;
     transition: all 0.3s ease;
     z-index: 2000;
     max-width: 300px;
     font-weight: 500;
+    text-align: left;
 }
 
 .notifications.show {
