@@ -40,11 +40,27 @@ const btnCancel = document.getElementById('btn-cancel');
 const plantNameInput = document.getElementById('plant-name');
 const plantOptions = document.querySelectorAll('input[name="plant-type"]');
 
+// Elemento de notificaciones
+const notifications = document.getElementById('notifications');
+
 // Variables para contadores
 let totalCosechadas = 0;
 
 // Variables del modal
 let celdaActual = null;
+
+// ========================================
+// FUNCIÓN: Mostrar notificaciones accesibles
+// ========================================
+function mostrarNotificacion(mensaje) {
+    notifications.textContent = mensaje;
+    notifications.classList.add('show');
+    
+    // Auto-ocultar después de 3 segundos
+    setTimeout(() => {
+        notifications.classList.remove('show');
+    }, 3000);
+}
 
 // ========================================
 // FUNCIONES DE LOCALSTORAGE
@@ -133,7 +149,7 @@ function mostrarModalPlantar(celda) {
     
     // Verificar si ya hay una planta
     if (jardin[row][col] !== null) {
-        alert('¡Ya hay una planta aquí!');
+        mostrarNotificacion('¡Ya hay una planta aquí!');
         return;
     }
     
@@ -244,10 +260,11 @@ function regarPlantas() {
     actualizarListaPlantas();
     guardarJardin(); // Guardar después de regar
     
+    // Mostrar notificación accesible
     if (plantasRegadas > 0) {
-        alert(`💧 ¡${plantasRegadas} planta(s) regada(s) y maduras!`);
+        mostrarNotificacion(`💧 ¡${plantasRegadas} planta(s) regada(s) y maduras!`);
     } else {
-        alert('No hay plantas para regar');
+        mostrarNotificacion('No hay plantas para regar');
     }
 }
 
@@ -285,10 +302,11 @@ function cosecharMaduras() {
     actualizarListaPlantas();
     guardarJardin(); // Guardar después de cosechar
     
+    // Mostrar notificación accesible
     if (plantasCosechadas > 0) {
-        alert(`🌾 ¡${plantasCosechadas} planta(s) cosechada(s)!`);
+        mostrarNotificacion(`🌾 ¡${plantasCosechadas} planta(s) cosechada(s)!`);
     } else {
-        alert('No hay plantas maduras para cosechar');
+        mostrarNotificacion('No hay plantas maduras para cosechar');
     }
 }
 
@@ -360,11 +378,11 @@ function actualizarListaPlantas() {
 // CONECTAR EVENTOS
 // ========================================
 
-// Click en cada celda para mostrar modal
-cells.forEach(celda => {
-    celda.addEventListener('click', function() {
-        mostrarModalPlantar(this);
-    });
+// Event delegation: un solo listener en el contenedor garden
+document.querySelector('.garden').addEventListener('click', function(e) {
+    if (e.target.classList.contains('cell')) {
+        mostrarModalPlantar(e.target);
+    }
 });
 
 // Botón para regar
