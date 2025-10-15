@@ -36,6 +36,57 @@ const stateFilter = document.getElementById('state-filter');
 let totalCosechadas = 0;
 
 // ========================================
+// FUNCIONES DE LOCALSTORAGE
+// ========================================
+
+// Guardar estado en localStorage
+function guardarJardin() {
+    const estado = {
+        jardin: jardin,
+        totalCosechadas: totalCosechadas
+    };
+    localStorage.setItem('garden-grid-estado', JSON.stringify(estado));
+    console.log('Jardín guardado en localStorage');
+}
+
+// Cargar estado desde localStorage
+function cargarJardin() {
+    const estadoGuardado = localStorage.getItem('garden-grid-estado');
+    
+    if (estadoGuardado) {
+        try {
+            const estado = JSON.parse(estadoGuardado);
+            
+            // Restaurar jardín
+            for (let fila = 0; fila < 8; fila++) {
+                for (let col = 0; col < 8; col++) {
+                    jardin[fila][col] = estado.jardin[fila][col];
+                    
+                    // Si hay una planta, actualizar la celda visual
+                    if (jardin[fila][col]) {
+                        const celda = document.querySelector(`[data-row="${fila}"][data-col="${col}"]`);
+                        const planta = jardin[fila][col];
+                        
+                        celda.textContent = planta.emoji;
+                        celda.classList.add(planta.estado);
+                    }
+                }
+            }
+            
+            // Restaurar contador de cosechadas
+            totalCosechadas = estado.totalCosechadas || 0;
+            
+            console.log('Jardín cargado desde localStorage');
+            return true;
+        } catch (error) {
+            console.error('Error al cargar jardín:', error);
+            return false;
+        }
+    }
+    return false;
+}
+
+// ========================================
 // FUNCIÓN: Actualizar contadores
 // ========================================
 function actualizarContadores() {
@@ -95,6 +146,7 @@ function plantar(celda) {
     // Actualizar contadores y lista
     actualizarContadores();
     actualizarListaPlantas();
+    guardarJardin(); // Guardar después de plantar
     
     console.log(`Plantada ${plantaAleatoria} ${nombre} en [${row}][${col}]`);
 }
@@ -130,6 +182,7 @@ function regarPlantas() {
     // Actualizar contadores y lista
     actualizarContadores();
     actualizarListaPlantas();
+    guardarJardin(); // Guardar después de regar
     
     if (plantasRegadas > 0) {
         alert(`💧 ¡${plantasRegadas} planta(s) regada(s) y maduras!`);
@@ -170,6 +223,7 @@ function cosecharMaduras() {
     // Actualizar contadores y lista
     actualizarContadores();
     actualizarListaPlantas();
+    guardarJardin(); // Guardar después de cosechar
     
     if (plantasCosechadas > 0) {
         alert(`🌾 ¡${plantasCosechadas} planta(s) cosechada(s)!`);
@@ -265,5 +319,17 @@ typeFilter.addEventListener('change', actualizarListaPlantas);
 stateFilter.addEventListener('change', actualizarListaPlantas);
 
 // Inicializar la aplicación
-actualizarContadores();
-actualizarListaPlantas();
+document.addEventListener('DOMContentLoaded', function() {
+    // Intentar cargar jardín guardado
+    const cargado = cargarJardin();
+    
+    if (cargado) {
+        console.log('Jardín cargado desde localStorage');
+    } else {
+        console.log('Empezando jardín nuevo');
+    }
+    
+    // Actualizar contadores y lista
+    actualizarContadores();
+    actualizarListaPlantas();
+});
