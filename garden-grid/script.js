@@ -73,10 +73,14 @@ function plantar(celda) {
     const tiposDisponibles = Object.keys(PLANTAS);
     const plantaAleatoria = tiposDisponibles[Math.floor(Math.random() * tiposDisponibles.length)];
     
+    // Pedir nombre (opcional)
+    const nombre = prompt('¿Nombre para tu planta? (opcional):') || 'Sin nombre';
+
     // Guardar en el jardín
     jardin[row][col] = {
         emoji: plantaAleatoria,
-        estado: 'plantada'
+        estado: 'plantada',
+        nombre: nombre
     };
     
     // Actualizar la celda en pantalla
@@ -86,7 +90,7 @@ function plantar(celda) {
     // Actualizar contadores
     actualizarContadores();
     
-    console.log(`Plantada ${plantaAleatoria} en [${row}][${col}]`);
+    console.log(`Plantada ${plantaAleatoria} ${nombre} en [${row}][${col}]`);
 }
 
 // ========================================
