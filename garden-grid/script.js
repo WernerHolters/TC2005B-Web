@@ -26,6 +26,12 @@ const plantedCount = document.getElementById('planted-count');
 const matureCount = document.getElementById('mature-count');
 const harvestedCount = document.getElementById('harvested-count');
 
+// Elementos del sidebar
+const plantsList = document.getElementById('plants-list');
+const searchInput = document.getElementById('search-input');
+const typeFilter = document.getElementById('type-filter');
+const stateFilter = document.getElementById('state-filter');
+
 // Variables para contadores
 let totalCosechadas = 0;
 
@@ -41,9 +47,9 @@ function actualizarContadores() {
         for (let col = 0; col < 8; col++) {
             const planta = jardin[row][col];
             if (planta) {
-                if (planta.estado === 'plantada') {
+                if (planta.estado === 'planted') {
                     plantadas++;
-                } else if (planta.estado === 'madura') {
+                } else if (planta.estado === 'mature') {
                     maduras++;
                 }
             }
@@ -79,16 +85,16 @@ function plantar(celda) {
     // Guardar en el jardín
     jardin[row][col] = {
         emoji: plantaAleatoria,
-        estado: 'plantada',
+        estado: 'planted',
         nombre: nombre
     };
-    
-    // Actualizar la celda en pantalla
+
     celda.textContent = plantaAleatoria;
     celda.classList.add('planted');
     
-    // Actualizar contadores
+    // Actualizar contadores y lista
     actualizarContadores();
+    actualizarListaPlantas();
     
     console.log(`Plantada ${plantaAleatoria} ${nombre} en [${row}][${col}]`);
 }
@@ -105,9 +111,9 @@ function regarPlantas() {
             const planta = jardin[row][col];
             
             // Si hay una planta y está plantada (no madura)
-            if (planta && planta.estado === 'plantada') {
+            if (planta && planta.estado === 'planted') {
                 // Cambiar a madura
-                planta.estado = 'madura';
+                planta.estado = 'mature';
                 planta.emoji = PLANTAS[planta.emoji]; // Cambiar emoji
                 
                 // Buscar la celda correspondiente y actualizarla
@@ -121,8 +127,9 @@ function regarPlantas() {
         }
     }
     
-    // Actualizar contadores
+    // Actualizar contadores y lista
     actualizarContadores();
+    actualizarListaPlantas();
     
     if (plantasRegadas > 0) {
         alert(`💧 ¡${plantasRegadas} planta(s) regada(s) y maduras!`);
@@ -143,7 +150,7 @@ function cosecharMaduras() {
             const planta = jardin[row][col];
             
             // Si hay una planta y está madura
-            if (planta && planta.estado === 'madura') {
+            if (planta && planta.estado === 'mature') {
                 // Limpiar el jardín
                 jardin[row][col] = null;
                 
@@ -160,13 +167,78 @@ function cosecharMaduras() {
     // Sumar al total de cosechadas
     totalCosechadas += plantasCosechadas;
     
-    // Actualizar contadores
+    // Actualizar contadores y lista
     actualizarContadores();
+    actualizarListaPlantas();
     
     if (plantasCosechadas > 0) {
         alert(`🌾 ¡${plantasCosechadas} planta(s) cosechada(s)!`);
     } else {
         alert('No hay plantas maduras para cosechar');
+    }
+}
+
+// ========================================
+// FUNCIÓN: Actualizar lista de plantas en el sidebar
+// ========================================
+function actualizarListaPlantas() {
+    const todasLasPlantas = [];
+    
+    // Recopilar todas las plantas del jardín
+    for (let fila = 0; fila < 8; fila++) {
+        for (let col = 0; col < 8; col++) {
+            const planta = jardin[fila][col];
+            if (planta) {
+                planta.posicion = `[${fila + 1},${col + 1}]`;
+                todasLasPlantas.push(planta);
+            }
+        }
+    }
+    
+    console.log('Plantas encontradas:', todasLasPlantas);
+    
+    // Limpiar la lista actual
+    plantsList.innerHTML = '';
+    
+    // Aplicar filtros
+    const filtroTexto = searchInput.value.toLowerCase();
+    const filtroTipo = typeFilter.value;
+    const filtroEstado = stateFilter.value;
+    
+    let plantasFiltradas = todasLasPlantas.filter(planta => {
+        const coincideTexto = planta.nombre.toLowerCase().includes(filtroTexto);
+        const coincideTipo = filtroTipo === 'all' || filtroTipo === '' || planta.emoji === filtroTipo;
+        const coincideEstado = filtroEstado === 'all' || filtroEstado === '' || planta.estado === filtroEstado;
+        
+        return coincideTexto && coincideTipo && coincideEstado;
+    });
+    
+    // Mostrar plantas filtradas
+    plantasFiltradas.forEach(planta => {
+        const plantItem = document.createElement('div');
+        plantItem.className = 'plant-item';
+        
+        const estadoTexto = planta.estado === 'planted' ? 'Plantada' : 'Madura';
+        
+        plantItem.innerHTML = `
+            <span class="plant-emoji">${planta.emoji}</span>
+            <div class="plant-info">
+                <div class="plant-name">${planta.nombre}</div>
+                <div class="plant-details">${estadoTexto} • ${planta.posicion}</div>
+            </div>
+        `;
+        
+        plantsList.appendChild(plantItem);
+    });
+    
+    // Mostrar mensaje si no hay plantas
+    if (plantasFiltradas.length === 0) {
+        const mensaje = document.createElement('div');
+        mensaje.className = 'no-plants-message';
+        mensaje.textContent = todasLasPlantas.length === 0 ? 
+            'No hay plantas en el jardín' : 
+            'No se encontraron plantas con esos filtros';
+        plantsList.appendChild(mensaje);
     }
 }
 
@@ -186,3 +258,12 @@ btnWater.addEventListener('click', regarPlantas);
 
 // Botón para cosechar
 btnHarvest.addEventListener('click', cosecharMaduras);
+
+// Eventos para los filtros del sidebar
+searchInput.addEventListener('input', actualizarListaPlantas);
+typeFilter.addEventListener('change', actualizarListaPlantas);
+stateFilter.addEventListener('change', actualizarListaPlantas);
+
+// Inicializar la aplicación
+actualizarContadores();
+actualizarListaPlantas();

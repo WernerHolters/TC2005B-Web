@@ -147,11 +147,60 @@ button:hover {
 }
 
 /* Plants Container */
-.plants-container{
+.plants-container {
     max-height: 360px;
     overflow: auto;
     background: #ffffff08;
     border: 1px dashed #ffffff1f;
     border-radius: 3px;
     padding: 8px;
+}
+
+/* Plant Items in Sidebar */
+.plant-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: background-color 0.2s;
+    color: white;
+}
+
+.plant-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.plant-item:last-child {
+    border-bottom: none;
+}
+
+.plant-emoji {
+    font-size: 20px;
+    margin-right: 10px;
+    min-width: 24px;
+    text-align: center;
+}
+
+.plant-info {
+    flex: 1;
+}
+
+.plant-name {
+    font-weight: 600;
+    color: #8fbc8f;
+    margin-bottom: 2px;
+    font-size: 14px;
+}
+
+.plant-details {
+    font-size: 11px;
+    color: #b0b0b0;
+}
+
+.no-plants-message {
+    text-align: center;
+    padding: 20px 8px;
+    color: #888;
+    font-style: italic;
+    font-size: 13px;
 }
