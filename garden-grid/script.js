@@ -17,9 +17,9 @@ for (let i = 0; i < 8; i++) {
 }
 
 // Obtener todas las celdas del HTML
-const celdas = document.querySelectorAll('.celda');
-const btnRegar = document.getElementById('btn-regar');
-const btnCosechar = document.getElementById('btn-cosechar');
+const cells = document.querySelectorAll('.cell');
+const btnWater = document.getElementById('btn-water');
+const btnHarvest = document.getElementById('btn-harvest');
 
 // Elementos de contadores
 const plantedCount = document.getElementById('planted-count');
@@ -81,7 +81,7 @@ function plantar(celda) {
     
     // Actualizar la celda en pantalla
     celda.textContent = plantaAleatoria;
-    celda.classList.add('plantada');
+    celda.classList.add('planted');
     
     // Actualizar contadores
     actualizarContadores();
@@ -109,8 +109,8 @@ function regarPlantas() {
                 // Buscar la celda correspondiente y actualizarla
                 const celda = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
                 celda.textContent = planta.emoji;
-                celda.classList.remove('plantada');
-                celda.classList.add('madura');
+                celda.classList.remove('planted');
+                celda.classList.add('mature');
                 
                 plantasRegadas++;
             }
@@ -146,7 +146,7 @@ function cosecharMaduras() {
                 // Buscar la celda y limpiarla
                 const celda = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
                 celda.textContent = '';
-                celda.classList.remove('madura');
+                celda.classList.remove('mature');
                 
                 plantasCosechadas++;
             }
@@ -171,14 +171,14 @@ function cosecharMaduras() {
 // ========================================
 
 // Click en cada celda para plantar
-celdas.forEach(celda => {
+cells.forEach(celda => {
     celda.addEventListener('click', function() {
         plantar(this);
     });
 });
 
 // Botón para regar
-btnRegar.addEventListener('click', regarPlantas);
+btnWater.addEventListener('click', regarPlantas);
 
 // Botón para cosechar
-btnCosechar.addEventListener('click', cosecharMaduras);
+btnHarvest.addEventListener('click', cosecharMaduras);
