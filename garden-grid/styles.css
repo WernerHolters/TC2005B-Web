@@ -16,6 +16,30 @@ h1 {
     margin-bottom: 20px;
 }
 
+/* Contadores */
+.contadores {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 20px;
+    background-color: #34495e;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 500px;
+    margin: 0 auto 20px auto;
+}
+
+.contador {
+    text-align: center;
+}
+
+.contador-label {
+    display: block;
+    font-size: 14px;
+    color: #bdc3c7;
+    margin-bottom: 5px;
+}
+
 /* Botones */
 .botones {
     margin-bottom: 20px;

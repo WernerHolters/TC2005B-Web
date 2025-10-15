@@ -1,7 +1,3 @@
-// ========================================
-// JARDÍN 8x8 - Sistema de plantas simple
-// ========================================
-
 // Tipos de plantas disponibles
 const PLANTAS = {
     '🌱': '🌿',  // Hierba: plantada -> madura
@@ -24,6 +20,41 @@ for (let i = 0; i < 8; i++) {
 const celdas = document.querySelectorAll('.celda');
 const btnRegar = document.getElementById('btn-regar');
 const btnCosechar = document.getElementById('btn-cosechar');
+
+// Elementos de contadores
+const plantedCount = document.getElementById('planted-count');
+const matureCount = document.getElementById('mature-count');
+const harvestedCount = document.getElementById('harvested-count');
+
+// Variables para contadores
+let totalCosechadas = 0;
+
+// ========================================
+// FUNCIÓN: Actualizar contadores
+// ========================================
+function actualizarContadores() {
+    let plantadas = 0;
+    let maduras = 0;
+    
+    // Contar plantas en el jardín
+    for (let row = 0; row < 8; row++) {
+        for (let col = 0; col < 8; col++) {
+            const planta = jardin[row][col];
+            if (planta) {
+                if (planta.estado === 'plantada') {
+                    plantadas++;
+                } else if (planta.estado === 'madura') {
+                    maduras++;
+                }
+            }
+        }
+    }
+    
+    // Actualizar números en pantalla
+    plantedCount.textContent = plantadas;
+    matureCount.textContent = maduras;
+    harvestedCount.textContent = totalCosechadas;
+}
 
 // ========================================
 // FUNCIÓN: Plantar en una celda
@@ -51,6 +82,9 @@ function plantar(celda) {
     // Actualizar la celda en pantalla
     celda.textContent = plantaAleatoria;
     celda.classList.add('plantada');
+    
+    // Actualizar contadores
+    actualizarContadores();
     
     console.log(`Plantada ${plantaAleatoria} en [${row}][${col}]`);
 }
@@ -82,6 +116,9 @@ function regarPlantas() {
             }
         }
     }
+    
+    // Actualizar contadores
+    actualizarContadores();
     
     if (plantasRegadas > 0) {
         alert(`💧 ¡${plantasRegadas} planta(s) regada(s) y maduras!`);
@@ -115,6 +152,12 @@ function cosecharMaduras() {
             }
         }
     }
+    
+    // Sumar al total de cosechadas
+    totalCosechadas += plantasCosechadas;
+    
+    // Actualizar contadores
+    actualizarContadores();
     
     if (plantasCosechadas > 0) {
         alert(`🌾 ¡${plantasCosechadas} planta(s) cosechada(s)!`);
