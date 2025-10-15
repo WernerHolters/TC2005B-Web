@@ -106,6 +106,35 @@
         <div class="cell" data-row="7" data-col="7"> </div>
     </div>
 
+    <!-- Panel Lateral -->
+    <div class="sidebar">
+        <h3>🌿 Lista de Plantas</h3>
+        
+        <!-- Filtros y Búsqueda -->
+        <div class="filters">
+            <input type="text" id="search-input" placeholder="Buscar por nombre..." class="search-box">
+            
+            <select id="type-filter" class="filter-select">
+                <option value="">Todos los tipos</option>
+                <option value="🌱">🌱 Hierba</option>
+                <option value="🌷">🌷 Flor</option>
+                <option value="🌵">🌵 Cactus</option>
+                <option value="🍓">🍓 Fresa</option>
+            </select>
+            
+            <select id="state-filter" class="filter-select">
+                <option value="">Todos los estados</option>
+                <option value="planted">🌱 Plantadas</option>
+                <option value="mature">🌿 Maduras</option>
+            </select>
+        </div>
+        
+        <!-- Lista de plantas -->
+        <div id="plants-list" class="plants-container">
+            
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

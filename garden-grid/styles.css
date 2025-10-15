@@ -99,3 +99,59 @@ button:hover {
 .cell.mature {
     background-color: #f39c12;
 }
+
+/* --- Sidebar --- */
+.sidebar {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    width: 300px;
+    background: #34495e;
+    border-radius: 12px;
+    padding: 14px;
+    text-align: left;
+    color: #ecf0f1;
+}
+
+.sidebar h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Search Box */
+.search-box {
+    width: 100%;
+    padding: 10px 12px;
+    border: 3px;
+    border-radius: 5px;
+    background: #2b3d4f;
+    margin-bottom: 10px;
+    color: #ecf0f1;
+}
+
+/* Filters */
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px; 
+}
+
+.filter-select {
+    padding: 10px 6px;
+    border: 3px;
+    border-radius: 5px;
+    background: #2b3d4f;
+    color: #ecf0f1;
+}
+
+/* Plants Container */
+.plants-container{
+    max-height: 360px;
+    overflow: auto;
+    background: #ffffff08;
+    border: 1px dashed #ffffff1f;
+    border-radius: 3px;
+    padding: 8px;
+}
