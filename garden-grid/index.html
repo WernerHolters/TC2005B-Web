@@ -135,6 +135,52 @@
         </div>
     </div>
 
+    <!-- Modal para plantar -->
+    <div id="plant-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🌱 Plantar Nueva Planta</h3>
+                <span class="close" id="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="plant-selection">
+                    <p>Elige el tipo de planta:</p>
+                    <div class="plant-options">
+                        <label class="plant-option">
+                            <input type="radio" name="plant-type" value="🌱">
+                            <span class="plant-icon">🌱</span>
+                            <span class="plant-label">Hierba</span>
+                        </label>
+                        <label class="plant-option">
+                            <input type="radio" name="plant-type" value="🌷">
+                            <span class="plant-icon">🌷</span>
+                            <span class="plant-label">Flor</span>
+                        </label>
+                        <label class="plant-option">
+                            <input type="radio" name="plant-type" value="🌵">
+                            <span class="plant-icon">🌵</span>
+                            <span class="plant-label">Cactus</span>
+                        </label>
+                        <label class="plant-option">
+                            <input type="radio" name="plant-type" value="🍓">
+                            <span class="plant-icon">🍓</span>
+                            <span class="plant-label">Fresa</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="name-input">
+                    <label for="plant-name">Nombre (opcional):</label>
+                    <input type="text" id="plant-name" placeholder="Ej: Mi Planta Favorita" maxlength="20">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-plant" class="btn-primary" disabled>🌱 Plantar</button>
+                <button id="btn-cancel" class="btn-secondary">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>

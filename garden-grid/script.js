@@ -32,8 +32,19 @@ const searchInput = document.getElementById('search-input');
 const typeFilter = document.getElementById('type-filter');
 const stateFilter = document.getElementById('state-filter');
 
+// Elementos del modal
+const plantModal = document.getElementById('plant-modal');
+const modalClose = document.getElementById('modal-close');
+const btnPlant = document.getElementById('btn-plant');
+const btnCancel = document.getElementById('btn-cancel');
+const plantNameInput = document.getElementById('plant-name');
+const plantOptions = document.querySelectorAll('input[name="plant-type"]');
+
 // Variables para contadores
 let totalCosechadas = 0;
+
+// Variables del modal
+let celdaActual = null;
 
 // ========================================
 // FUNCIONES DE LOCALSTORAGE
@@ -114,9 +125,9 @@ function actualizarContadores() {
 }
 
 // ========================================
-// FUNCIÓN: Plantar en una celda
+// FUNCIÓN: Mostrar modal para plantar
 // ========================================
-function plantar(celda) {
+function mostrarModalPlantar(celda) {
     const row = celda.dataset.row;
     const col = celda.dataset.col;
     
@@ -126,29 +137,78 @@ function plantar(celda) {
         return;
     }
     
-    // Elegir una planta aleatoria
-    const tiposDisponibles = Object.keys(PLANTAS);
-    const plantaAleatoria = tiposDisponibles[Math.floor(Math.random() * tiposDisponibles.length)];
+    celdaActual = celda;
+    plantModal.style.display = 'block';
     
-    // Pedir nombre (opcional)
-    const nombre = prompt('¿Nombre para tu planta? (opcional):') || 'Sin nombre';
+    // Limpiar selecciones anteriores
+    plantOptions.forEach(option => option.checked = false);
+    plantNameInput.value = '';
+    btnPlant.disabled = true;
+    
+    // Actualizar visual de opciones
+    actualizarSeleccionPlantas();
+}
 
+// ========================================
+// FUNCIÓN: Actualizar selección de plantas
+// ========================================
+function actualizarSeleccionPlantas() {
+    const seleccionada = document.querySelector('input[name="plant-type"]:checked');
+    
+    // Actualizar estilos visuales
+    document.querySelectorAll('.plant-option').forEach(option => {
+        option.classList.remove('selected');
+    });
+    
+    if (seleccionada) {
+        seleccionada.closest('.plant-option').classList.add('selected');
+        btnPlant.disabled = false;
+    } else {
+        btnPlant.disabled = true;
+    }
+}
+
+// ========================================
+// FUNCIÓN: Plantar planta seleccionada
+// ========================================
+function plantarSeleccionada() {
+    const tipoSeleccionado = document.querySelector('input[name="plant-type"]:checked');
+    
+    if (!tipoSeleccionado || !celdaActual) return;
+    
+    const row = celdaActual.dataset.row;
+    const col = celdaActual.dataset.col;
+    const plantaEmoji = tipoSeleccionado.value;
+    const nombre = plantNameInput.value.trim() || 'Sin nombre';
+    
     // Guardar en el jardín
     jardin[row][col] = {
-        emoji: plantaAleatoria,
+        emoji: plantaEmoji,
         estado: 'planted',
         nombre: nombre
     };
-
-    celda.textContent = plantaAleatoria;
-    celda.classList.add('planted');
+    
+    // Actualizar visual
+    celdaActual.textContent = plantaEmoji;
+    celdaActual.classList.add('planted');
+    
+    // Cerrar modal
+    plantModal.style.display = 'none';
     
     // Actualizar contadores y lista
     actualizarContadores();
     actualizarListaPlantas();
-    guardarJardin(); // Guardar después de plantar
+    guardarJardin();
     
-    console.log(`Plantada ${plantaAleatoria} ${nombre} en [${row}][${col}]`);
+    console.log(`Plantada ${plantaEmoji} "${nombre}" en [${row}][${col}]`);
+}
+
+// ========================================
+// FUNCIÓN: Cerrar modal
+// ========================================
+function cerrarModal() {
+    plantModal.style.display = 'none';
+    celdaActual = null;
 }
 
 // ========================================
@@ -300,10 +360,10 @@ function actualizarListaPlantas() {
 // CONECTAR EVENTOS
 // ========================================
 
-// Click en cada celda para plantar
+// Click en cada celda para mostrar modal
 cells.forEach(celda => {
     celda.addEventListener('click', function() {
-        plantar(this);
+        mostrarModalPlantar(this);
     });
 });
 
@@ -312,6 +372,30 @@ btnWater.addEventListener('click', regarPlantas);
 
 // Botón para cosechar
 btnHarvest.addEventListener('click', cosecharMaduras);
+
+// Eventos del modal
+modalClose.addEventListener('click', cerrarModal);
+btnCancel.addEventListener('click', cerrarModal);
+btnPlant.addEventListener('click', plantarSeleccionada);
+
+// Cerrar modal al hacer click fuera
+plantModal.addEventListener('click', function(e) {
+    if (e.target === plantModal) {
+        cerrarModal();
+    }
+});
+
+// Eventos de selección de plantas
+plantOptions.forEach(option => {
+    option.addEventListener('change', actualizarSeleccionPlantas);
+});
+
+// Cerrar modal con Escape
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && plantModal.style.display === 'block') {
+        cerrarModal();
+    }
+});
 
 // Eventos para los filtros del sidebar
 searchInput.addEventListener('input', actualizarListaPlantas);
