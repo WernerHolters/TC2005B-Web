@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let valid_password = '';
 
     // Cargar credenciales desde JSON
-    fetch('credentials.json')
+    fetch('data/credentials.json')
         .then(response => response.json())
         .then(data => {
             valid_email = data.valid_email;
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (email === valid_email && password === valid_password) {
                 console.log("Login successful!");
                 console.log("Redirecting to home page...");
-                window.location.href = "home.html";
+                window.location.href = "pages/home.html";
             } else {
                 if (email !== valid_email) {
                     console.error("Error: User not found.");
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (homeButton) {
         homeButton.addEventListener('click', () => {
             console.log("Redirecting to home page...");
-            window.location.href = "index.html";
+            window.location.href = "../index.html";
         });
     } else {
         console.error("Error: Home button not found in the document.");
