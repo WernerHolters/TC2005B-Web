@@ -1,3 +1,7 @@
+// ========================================
+// Garden Grid - JavaScript
+// ========================================
+
 // Tipos de plantas disponibles
 const PLANTAS = {
     '🌱': '🌿',  // Hierba: plantada -> madura
@@ -15,6 +19,10 @@ for (let i = 0; i < 8; i++) {
         jardin[i][j] = null; // null = celda vacía
     }
 }
+
+// ========================================
+// Referencias a elementos del DOM
+// ========================================
 
 // Obtener todas las celdas del HTML
 const cells = document.querySelectorAll('.cell');
@@ -52,10 +60,11 @@ let celdaActual = null;
 // ========================================
 // FUNCIÓN: Mostrar notificaciones accesibles
 // ========================================
+
 function mostrarNotificacion(mensaje) {
     notifications.textContent = mensaje;
     notifications.classList.add('show');
-    
+
     // Auto-ocultar después de 3 segundos
     setTimeout(() => {
         notifications.classList.remove('show');
@@ -79,30 +88,29 @@ function guardarJardin() {
 // Cargar estado desde localStorage
 function cargarJardin() {
     const estadoGuardado = localStorage.getItem('garden-grid-estado');
-    
+
     if (estadoGuardado) {
         try {
             const estado = JSON.parse(estadoGuardado);
-            
+
             // Restaurar jardín
             for (let fila = 0; fila < 8; fila++) {
                 for (let col = 0; col < 8; col++) {
                     jardin[fila][col] = estado.jardin[fila][col];
-                    
+
                     // Si hay una planta, actualizar la celda visual
                     if (jardin[fila][col]) {
                         const celda = document.querySelector(`[data-row="${fila}"][data-col="${col}"]`);
                         const planta = jardin[fila][col];
-                        
+
                         celda.textContent = planta.emoji;
                         celda.classList.add(planta.estado);
                     }
                 }
             }
-            
             // Restaurar contador de cosechadas
             totalCosechadas = estado.totalCosechadas || 0;
-            
+
             console.log('Jardín cargado desde localStorage');
             return true;
         } catch (error) {
@@ -116,10 +124,11 @@ function cargarJardin() {
 // ========================================
 // FUNCIÓN: Actualizar contadores
 // ========================================
+
 function actualizarContadores() {
     let plantadas = 0;
     let maduras = 0;
-    
+
     // Contar plantas en el jardín
     for (let row = 0; row < 8; row++) {
         for (let col = 0; col < 8; col++) {
@@ -133,7 +142,7 @@ function actualizarContadores() {
             }
         }
     }
-    
+
     // Actualizar números en pantalla
     plantedCount.textContent = plantadas;
     matureCount.textContent = maduras;
@@ -143,24 +152,25 @@ function actualizarContadores() {
 // ========================================
 // FUNCIÓN: Mostrar modal para plantar
 // ========================================
+
 function mostrarModalPlantar(celda) {
     const row = celda.dataset.row;
     const col = celda.dataset.col;
-    
+
     // Verificar si ya hay una planta
     if (jardin[row][col] !== null) {
         mostrarNotificacion('¡Ya hay una planta aquí!');
         return;
     }
-    
+
     celdaActual = celda;
     plantModal.style.display = 'block';
-    
+
     // Limpiar selecciones anteriores
     plantOptions.forEach(option => option.checked = false);
     plantNameInput.value = '';
     btnPlant.disabled = true;
-    
+
     // Actualizar visual de opciones
     actualizarSeleccionPlantas();
 }
@@ -168,14 +178,15 @@ function mostrarModalPlantar(celda) {
 // ========================================
 // FUNCIÓN: Actualizar selección de plantas
 // ========================================
+
 function actualizarSeleccionPlantas() {
     const seleccionada = document.querySelector('input[name="plant-type"]:checked');
-    
+
     // Actualizar estilos visuales
     document.querySelectorAll('.plant-option').forEach(option => {
         option.classList.remove('selected');
     });
-    
+
     if (seleccionada) {
         seleccionada.closest('.plant-option').classList.add('selected');
         btnPlant.disabled = false;
@@ -187,41 +198,43 @@ function actualizarSeleccionPlantas() {
 // ========================================
 // FUNCIÓN: Plantar planta seleccionada
 // ========================================
+
 function plantarSeleccionada() {
     const tipoSeleccionado = document.querySelector('input[name="plant-type"]:checked');
-    
+
     if (!tipoSeleccionado || !celdaActual) return;
-    
+
     const row = celdaActual.dataset.row;
     const col = celdaActual.dataset.col;
     const plantaEmoji = tipoSeleccionado.value;
     const nombre = plantNameInput.value.trim() || 'Sin nombre';
-    
+
     // Guardar en el jardín
     jardin[row][col] = {
         emoji: plantaEmoji,
         estado: 'planted',
         nombre: nombre
     };
-    
+
     // Actualizar visual
     celdaActual.textContent = plantaEmoji;
     celdaActual.classList.add('planted');
-    
+
     // Cerrar modal
     plantModal.style.display = 'none';
-    
+
     // Actualizar contadores y lista
     actualizarContadores();
     actualizarListaPlantas();
     guardarJardin();
-    
+
     console.log(`Plantada ${plantaEmoji} "${nombre}" en [${row}][${col}]`);
 }
 
 // ========================================
 // FUNCIÓN: Cerrar modal
 // ========================================
+
 function cerrarModal() {
     plantModal.style.display = 'none';
     celdaActual = null;
@@ -230,36 +243,37 @@ function cerrarModal() {
 // ========================================
 // FUNCIÓN: Regar todas las plantas
 // ========================================
+
 function regarPlantas() {
     let plantasRegadas = 0;
-    
+
     // Recorrer todo el jardín
     for (let row = 0; row < 8; row++) {
         for (let col = 0; col < 8; col++) {
             const planta = jardin[row][col];
-            
+
             // Si hay una planta y está plantada (no madura)
             if (planta && planta.estado === 'planted') {
                 // Cambiar a madura
                 planta.estado = 'mature';
                 planta.emoji = PLANTAS[planta.emoji]; // Cambiar emoji
-                
+
                 // Buscar la celda correspondiente y actualizarla
                 const celda = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
                 celda.textContent = planta.emoji;
                 celda.classList.remove('planted');
                 celda.classList.add('mature');
-                
+
                 plantasRegadas++;
             }
         }
     }
-    
+
     // Actualizar contadores y lista
     actualizarContadores();
     actualizarListaPlantas();
     guardarJardin(); // Guardar después de regar
-    
+
     // Mostrar notificación accesible
     if (plantasRegadas > 0) {
         mostrarNotificacion(`💧 ¡${plantasRegadas} planta(s) regada(s) y maduras!`);
@@ -271,37 +285,38 @@ function regarPlantas() {
 // ========================================
 // FUNCIÓN: Cosechar plantas maduras
 // ========================================
+
 function cosecharMaduras() {
     let plantasCosechadas = 0;
-    
+
     // Recorrer todo el jardín
     for (let row = 0; row < 8; row++) {
         for (let col = 0; col < 8; col++) {
             const planta = jardin[row][col];
-            
+
             // Si hay una planta y está madura
             if (planta && planta.estado === 'mature') {
                 // Limpiar el jardín
                 jardin[row][col] = null;
-                
+
                 // Buscar la celda y limpiarla
                 const celda = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
                 celda.textContent = '';
                 celda.classList.remove('mature');
-                
+
                 plantasCosechadas++;
             }
         }
     }
-    
+
     // Sumar al total de cosechadas
     totalCosechadas += plantasCosechadas;
-    
+
     // Actualizar contadores y lista
     actualizarContadores();
     actualizarListaPlantas();
     guardarJardin(); // Guardar después de cosechar
-    
+
     // Mostrar notificación accesible
     if (plantasCosechadas > 0) {
         mostrarNotificacion(`🌾 ¡${plantasCosechadas} planta(s) cosechada(s)!`);
@@ -313,9 +328,10 @@ function cosecharMaduras() {
 // ========================================
 // FUNCIÓN: Actualizar lista de plantas en el sidebar
 // ========================================
+
 function actualizarListaPlantas() {
     const todasLasPlantas = [];
-    
+
     // Recopilar todas las plantas del jardín
     for (let fila = 0; fila < 8; fila++) {
         for (let col = 0; col < 8; col++) {
@@ -326,32 +342,32 @@ function actualizarListaPlantas() {
             }
         }
     }
-    
+
     console.log('Plantas encontradas:', todasLasPlantas);
-    
+
     // Limpiar la lista actual
     plantsList.innerHTML = '';
-    
+
     // Aplicar filtros
     const filtroTexto = searchInput.value.toLowerCase();
     const filtroTipo = typeFilter.value;
     const filtroEstado = stateFilter.value;
-    
+
     let plantasFiltradas = todasLasPlantas.filter(planta => {
         const coincideTexto = planta.nombre.toLowerCase().includes(filtroTexto);
         const coincideTipo = filtroTipo === 'all' || filtroTipo === '' || planta.emoji === filtroTipo;
         const coincideEstado = filtroEstado === 'all' || filtroEstado === '' || planta.estado === filtroEstado;
-        
+
         return coincideTexto && coincideTipo && coincideEstado;
     });
-    
+
     // Mostrar plantas filtradas
     plantasFiltradas.forEach(planta => {
         const plantItem = document.createElement('div');
         plantItem.className = 'plant-item';
-        
+
         const estadoTexto = planta.estado === 'planted' ? 'Plantada' : 'Madura';
-        
+
         plantItem.innerHTML = `
             <span class="plant-emoji">${planta.emoji}</span>
             <div class="plant-info">
@@ -359,17 +375,17 @@ function actualizarListaPlantas() {
                 <div class="plant-details">${estadoTexto} • ${planta.posicion}</div>
             </div>
         `;
-        
+
         plantsList.appendChild(plantItem);
     });
-    
+
     // Mostrar mensaje si no hay plantas
     if (plantasFiltradas.length === 0) {
         const mensaje = document.createElement('div');
         mensaje.className = 'no-plants-message';
-        mensaje.textContent = todasLasPlantas.length === 0 ? 
-            'No hay plantas en el jardín' : 
-            'No se encontraron plantas con esos filtros';
+        mensaje.textContent = todasLasPlantas.length === 0
+            ? 'No hay plantas en el jardín'
+            : 'No se encontraron plantas con esos filtros';
         plantsList.appendChild(mensaje);
     }
 }
@@ -379,16 +395,14 @@ function actualizarListaPlantas() {
 // ========================================
 
 // Event delegation: un solo listener en el contenedor garden
-document.querySelector('.garden').addEventListener('click', function(e) {
+document.querySelector('.garden').addEventListener('click', function (e) {
     if (e.target.classList.contains('cell')) {
         mostrarModalPlantar(e.target);
     }
 });
 
-// Botón para regar
+// Botones principales
 btnWater.addEventListener('click', regarPlantas);
-
-// Botón para cosechar
 btnHarvest.addEventListener('click', cosecharMaduras);
 
 // Eventos del modal
@@ -397,7 +411,7 @@ btnCancel.addEventListener('click', cerrarModal);
 btnPlant.addEventListener('click', plantarSeleccionada);
 
 // Cerrar modal al hacer click fuera
-plantModal.addEventListener('click', function(e) {
+plantModal.addEventListener('click', function (e) {
     if (e.target === plantModal) {
         cerrarModal();
     }
@@ -409,7 +423,7 @@ plantOptions.forEach(option => {
 });
 
 // Cerrar modal con Escape
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && plantModal.style.display === 'block') {
         cerrarModal();
     }
@@ -420,17 +434,20 @@ searchInput.addEventListener('input', actualizarListaPlantas);
 typeFilter.addEventListener('change', actualizarListaPlantas);
 stateFilter.addEventListener('change', actualizarListaPlantas);
 
-// Inicializar la aplicación
-document.addEventListener('DOMContentLoaded', function() {
+// ========================================
+// INICIALIZACIÓN
+// ========================================
+
+document.addEventListener('DOMContentLoaded', function () {
     // Intentar cargar jardín guardado
     const cargado = cargarJardin();
-    
+
     if (cargado) {
         console.log('Jardín cargado desde localStorage');
     } else {
         console.log('Empezando jardín nuevo');
     }
-    
+
     // Actualizar contadores y lista
     actualizarContadores();
     actualizarListaPlantas();

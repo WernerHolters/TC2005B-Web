@@ -1,3 +1,7 @@
+/* ========================================
+   Valorant API - Estilos
+   ======================================== */
+
 * {
     background: #1f1f1f;
     color: white;
@@ -9,6 +13,10 @@ h1 {
     color: #fd4556;
 }
 
+/* ========================================
+   Search Input
+   ======================================== */
+
 #search-input {
     display: block;
     width: 300px;
@@ -19,6 +27,10 @@ h1 {
     background: #4a4a4a;
     font-size: 16px;
 }
+
+/* ========================================
+   Agents Container
+   ======================================== */
 
 #agents-container {
     display: flex;
@@ -46,6 +58,10 @@ h1 {
     margin: 10px 0 0 0;
     font-weight: bold;
 }
+
+/* ========================================
+   Pagination
+   ======================================== */
 
 #pagination-container {
     display: flex;

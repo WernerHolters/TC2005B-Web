@@ -1,3 +1,7 @@
+// ========================================
+// Remember - Login Script
+// ========================================
+
 document.addEventListener('DOMContentLoaded', () => {
     const loginButton = document.getElementById('loginButton');
     const homeButton = document.getElementById('homeButton');
@@ -5,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let valid_email = '';
     let valid_password = '';
 
+    // Cargar credenciales desde JSON
     fetch('credentials.json')
         .then(response => response.json())
         .then(data => {
@@ -16,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error("Error loading credentials:", error);
         });
 
+    // Manejador del botón de login
     if (loginButton) {
         loginButton.addEventListener('click', () => {
             const email = document.getElementById('email').value;
@@ -44,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error("Error: Login button not found in the document.");
     }
 
+    // Manejador del botón de home
     if (homeButton) {
         homeButton.addEventListener('click', () => {
             console.log("Redirecting to home page...");

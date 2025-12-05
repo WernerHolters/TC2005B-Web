@@ -1,3 +1,7 @@
+/* ========================================
+   Remember - Estilos Generales
+   ======================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -9,6 +13,10 @@ body {
     background: #f5f5f5;
     padding: 50px;
 }
+
+/* ========================================
+   Menu
+   ======================================== */
 
 .menu {
     background: white;
@@ -48,6 +56,10 @@ body {
     color: white;
 }
 
+/* ========================================
+   Container & Login Box
+   ======================================== */
+
 .container {
     max-width: 400px;
     margin: 0 auto;
@@ -71,6 +83,10 @@ body {
     margin-bottom: 30px;
     color: darkblue;
 }
+
+/* ========================================
+   Form Elements
+   ======================================== */
 
 .input-group {
     margin-bottom: 15px;
@@ -100,6 +116,12 @@ body {
 .remember-me {
     margin-bottom: 10px;
 }
+    margin-bottom: 10px;
+}
+
+/* ========================================
+   Buttons
+   ======================================== */
 
 .login-btn {
     width: 100%;
@@ -115,6 +137,10 @@ body {
 .login-btn:hover {
     background-color: #0056b3;
 }
+
+/* ========================================
+   Links
+   ======================================== */
 
 .signup-link {
     text-align: center;
@@ -133,6 +159,10 @@ body {
     font-size: 14px;
 }
 
+/* ========================================
+   Footer
+   ======================================== */
+
 .footer {
     text-align: center;
     margin-top: 30px;
@@ -142,6 +172,10 @@ body {
     background-color: #f8f9fa;
     border-top: 1px solid #eee;
 }
+
+/* ========================================
+   Additional Elements
+   ======================================== */
 
 .welcome-image {
     max-width: 100%;

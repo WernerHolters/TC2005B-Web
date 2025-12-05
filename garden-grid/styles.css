@@ -1,3 +1,7 @@
+/* ========================================
+   Garden Grid - Estilos
+   ======================================== */
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -16,7 +20,10 @@ h1 {
     margin-bottom: 10px;
 }
 
-/* Counters */
+/* ========================================
+   Counters
+   ======================================== */
+
 .counters {
     display: flex;
     justify-content: center;
@@ -40,7 +47,10 @@ h1 {
     margin-bottom: 5px;
 }
 
-/* Buttons */
+/* ========================================
+   Buttons
+   ======================================== */
+
 .buttons {
     margin-bottom: 10px;
     max-width: 600px;
@@ -64,7 +74,10 @@ button:hover {
     background-color: #2ecc7f;
 }
 
-/* Garden */
+/* ========================================
+   Garden Grid
+   ======================================== */
+
 .garden {
     display: grid;
     grid-template-columns: repeat(8, 1fr);
@@ -100,7 +113,10 @@ button:hover {
     background-color: #f39c12;
 }
 
-/* --- Sidebar --- */
+/* ========================================
+   Sidebar
+   ======================================== */
+
 .sidebar {
     position: fixed;
     top: 24px;
@@ -135,7 +151,7 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-bottom: 10px; 
+    margin-bottom: 10px;
 }
 
 .filter-select {
@@ -205,7 +221,10 @@ button:hover {
     font-size: 13px;
 }
 
-/* Modal Styles */
+/* ========================================
+   Modal Styles
+   ======================================== */
+
 .modal {
     display: none;
     position: fixed;
@@ -384,7 +403,10 @@ button:hover {
     background-color: #2c3e50;
 }
 
-/* Notificaciones accesibles */
+/* ========================================
+   Notificaciones
+   ======================================== */
+
 .notifications {
     position: fixed;
     bottom: 20px;
